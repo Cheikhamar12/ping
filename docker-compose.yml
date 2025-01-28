@@ -8,7 +8,7 @@ services:
     ports:
       - "5173:5173"  # Exposing frontend port
     environment:
-      - VITE_BACKEND_URL=http://backend:5000  # You can set environment variables if needed
+      - VITE_BACKEND_URL=http://backend:5000  
     depends_on:
       - backend
     networks:
@@ -19,17 +19,18 @@ services:
       context: ./Backend
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"  # Exposing backend port
+      - "5000:5000"
     environment:
-      - DB_HOST=db  # MySQL container host for backend
+      - DB_HOST=db
       - DB_USER=root
       - DB_PASSWORD=root
       - DB_NAME=ping
-      - JWT_SECRET=your_secret_key
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - app-network
+
 
   db:
     image: mysql:8.0
@@ -42,6 +43,11 @@ services:
       - app-network
     volumes:
       - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$MYSQL_ROOT_PASSWORD"]
+      interval: 30s
+      retries: 3
+
 
 networks:
   app-network:

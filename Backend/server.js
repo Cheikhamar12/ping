@@ -39,7 +39,12 @@ db.connect((err) => {
 
 // Routes
 
-// 1. Inscription
+// 1. Route GET pour afficher un message d'accueil
+app.get('/', (req, res) => {
+  res.send('Bienvenue sur le serveur !');
+});
+
+// 2. Inscription
 app.post('/api/auth/register', async (req, res) => {
   const { name, email, password, phone } = req.body;
 
@@ -61,7 +66,7 @@ app.post('/api/auth/register', async (req, res) => {
   }
 });
 
-// 2. Connexion
+// 3. Connexion
 app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body;
 
@@ -93,6 +98,6 @@ app.post('/api/auth/login', (req, res) => {
 });
 
 // Lancement du serveur
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on http://localhost:${port}`);
 });
