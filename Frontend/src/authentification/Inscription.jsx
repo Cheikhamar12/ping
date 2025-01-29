@@ -9,6 +9,8 @@ function Inscription() {
     password: '',
     phone: '',
   });
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState(''); // Pour l'erreur du téléphone
 
   const navigate = useNavigate();
 
@@ -20,38 +22,60 @@ function Inscription() {
     }));
   };
 
+  const validateEmail = (email) => {
+    // Expression régulière pour valider le format email : localpart@domain.extension
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!regex.test(email)) {
+      setEmailError('Veuillez entrer une adresse e-mail valide (ex : user@domain.com)');
+      return false;
+    }
+    setEmailError('');
+    return true;
+  };
+
+  const validatePhone = (phone) => {
+    // Expression régulière pour valider un numéro de téléphone
+    const regex = /^(\+?[0-9]{1,3})?([0-9]{10})$/; // Validation pour un numéro avec ou sans code pays (ex: +1234567890 ou 0123456789)
+    if (!regex.test(phone)) {
+      setPhoneError('Veuillez entrer un numéro de téléphone valide (ex : 0123456789 ou +33XXXXXXXXX)');
+      return false;
+    }
+    setPhoneError('');
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-        // Envoyer les données au backend
-        const response = await fetch('http://localhost:5000/api/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData),
-        });
-
-        if (!response.ok) {
-            // Gérer les erreurs de réponse
-            const errorData = await response.json();
-            console.error('Erreur lors de l\'inscription:', errorData.message);
-            alert(errorData.message || 'Une erreur est survenue lors de l\'inscription.');
-            return;
-        }
-
-        // Afficher un message de succès
-        const data = await response.json();
-        console.log('Inscription réussie:', data.message);
-        alert('Inscription réussie ! Vous allez être redirigé vers la page de connexion.');
-
-        // Rediriger vers la page de connexion
-        navigate('/connexion');
-    } catch (error) {
-        console.error('Erreur lors de la connexion au serveur:', error);
-        alert('Impossible de se connecter au serveur. Veuillez réessayer plus tard.');
+    // Valider l'email et le téléphone avant de soumettre
+    if (!validateEmail(formData.email) || !validatePhone(formData.phone)) {
+      return; // Ne pas soumettre si l'email ou le téléphone ne sont pas valides
     }
-};
 
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Erreur lors de l\'inscription:', errorData.message);
+        alert(errorData.message || 'Une erreur est survenue lors de l\'inscription.');
+        return;
+      }
+
+      const data = await response.json();
+      console.log('Inscription réussie:', data.message);
+      alert('Inscription réussie ! Vous allez être redirigé vers la page de connexion.');
+
+      navigate('/connexion');
+    } catch (error) {
+      console.error('Erreur lors de la connexion au serveur:', error);
+      alert('Impossible de se connecter au serveur. Veuillez réessayer plus tard.');
+    }
+  };
 
   return (
     <div
@@ -96,7 +120,7 @@ function Inscription() {
             required
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '5px',
               margin: '10px 0',
               border: '1px solid #ddd',
               borderRadius: '4px',
@@ -111,12 +135,14 @@ function Inscription() {
             required
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '5px',
               margin: '10px 0',
               border: '1px solid #ddd',
               borderRadius: '4px',
             }}
           />
+          {emailError && <p style={{ color: 'red', fontSize: '0.9rem' }}>{emailError}</p>}
+          
           <input
             type="password"
             name="password"
@@ -126,7 +152,7 @@ function Inscription() {
             required
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '5px',
               margin: '10px 0',
               border: '1px solid #ddd',
               borderRadius: '4px',
@@ -141,12 +167,14 @@ function Inscription() {
             required
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '5px',
               margin: '10px 0',
               border: '1px solid #ddd',
               borderRadius: '4px',
             }}
           />
+          {phoneError && <p style={{ color: 'red', fontSize: '0.9rem' }}>{phoneError}</p>}
+          
           <button
             type="submit"
             style={{
@@ -159,9 +187,7 @@ function Inscription() {
               cursor: 'pointer',
             }}
           >
-                S'INSCRIRE 
-        
-
+            S'INSCRIRE 
           </button>
         </form>
       </div>

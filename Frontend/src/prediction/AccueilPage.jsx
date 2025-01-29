@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import logo from '../assets/logo.png';
 
 const AccueilPage = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <div style={styles.container}>
       {/* Barre de navigation */}
@@ -11,21 +19,30 @@ const AccueilPage = () => {
             <img src={logo} alt="Logo" style={styles.logo} />
             <span style={styles.brand}>MIKANA</span>
           </div>
-          <ul style={styles.navLinks}>
+
+          {/* Icône du menu */}
+          <div style={styles.menuIcon} onClick={toggleMenu}>
+            {menuOpen ? <FaTimes size={30} color="#fff" /> : <FaBars size={30} color="#fff" />}
+          </div>
+        </div>
+
+        {/* Menu dynamique */}
+        <div style={{ ...styles.menu, ...(menuOpen ? styles.menuOpen : {}) }}>
+          <ul style={styles.menuLinks}>
             <li>
-              <a href="/" style={styles.activeLink}>
+              <Link to="/" style={styles.link} onClick={toggleMenu}>
                 Accueil
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/predictions" style={styles.link}>
+              <Link to="/rh-predictions" style={styles.link} onClick={toggleMenu}>
+                Besoin RH
+              </Link>
+            </li>
+            <li>
+              <Link to="/predictions" style={styles.link} onClick={toggleMenu}>
                 Prédictions
-              </a>
-            </li>
-            <li>
-              <a href="/documentation" style={styles.link}>
-                Documentation
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -33,25 +50,17 @@ const AccueilPage = () => {
 
       {/* Contenu principal */}
       <div style={styles.mainContent}>
-        <h1 style={styles.title}>Tableau de bord</h1>
+        <h1 style={styles.title}>ACCUEIL</h1>
         <p style={styles.subtitle}>
-          Système de gestion intelligente du linge - CHU de Rouen
+          Un système avancé d'intelligence artificielle qui permet de prédire les besoins de la blanchisserie du CHU de Rouen
         </p>
 
-        {/* Aperçu des prédictions */}
+        {/* Section des prédictions */}
         <div style={styles.grid}>
-          {/* Carte 1 */}
           <div style={styles.card}>
-            <h2 style={styles.cardTitle}>Aperçu des prédictions</h2>
-            <p style={styles.cardSubtitle}>Graphique des prédictions</p>
-            <div style={styles.cardContent}>
-              <span style={styles.placeholderText}>
-                Graphique à insérer ici
-              </span>
-            </div>
+            <h2 style={styles.cardTitle}>Vous pouvez accedé aux prédictions dans la barre de menu </h2>
+            
           </div>
-
-        
         </div>
       </div>
     </div>
@@ -65,9 +74,13 @@ const styles = {
     fontFamily: 'Arial, sans-serif',
   },
   navbar: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#87CEFA',
     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-    padding: '10px 20px',
+    padding: '20px 30px',
+    position: 'fixed',
+    width: '100%',
+    top: 0,
+    zIndex: 100,
   },
   navContent: {
     display: 'flex',
@@ -81,46 +94,63 @@ const styles = {
     alignItems: 'center',
   },
   logo: {
-    height: '30px',
+    height: '40px',
     marginRight: '10px',
   },
   brand: {
-    fontSize: '20px',
+    fontSize: '22px',
     fontWeight: 'bold',
-    color: '#333333',
+    color: 'white',
   },
-  navLinks: {
+  menuIcon: {
+    cursor: 'pointer',
+  },
+  menu: {
+    position: 'fixed',
+    top: 0,
+    right: '-100%',
+    height: '100vh',
+    width: '250px',
+    backgroundColor: '#87CEFA',
+    transition: 'right 0.4s ease-in-out',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+    zIndex: 99,
     display: 'flex',
-    listStyleType: 'none',
-    margin: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  menuOpen: {
+    right: 0,
+  },
+  menuLinks: {
+    listStyle: 'none',
     padding: 0,
+    margin: 0,
+    textAlign: 'center',
   },
   link: {
-    color: '#666666',
+    display: 'block',
+    color: '#000000',
     textDecoration: 'none',
-    margin: '0 10px',
-    fontSize: '16px',
-  },
-  activeLink: {
-    color: '#007bff',
-    textDecoration: 'none',
-    margin: '0 10px',
-    fontSize: '16px',
+    fontSize: '18px',
     fontWeight: 'bold',
+    padding: '15px 0',
+    transition: 'color 0.3s ease',
   },
   mainContent: {
     maxWidth: '1200px',
-    margin: '20px auto',
+    margin: '100px auto 0',
     padding: '0 20px',
+    textAlign: 'center',
   },
   title: {
-    fontSize: '28px',
+    fontSize: '36px',
     fontWeight: 'bold',
     color: '#333333',
-    marginBottom: '10px',
+    marginBottom: '20px',
   },
   subtitle: {
-    fontSize: '16px',
+    fontSize: '18px',
     color: '#666666',
     marginBottom: '30px',
   },
@@ -132,30 +162,29 @@ const styles = {
   },
   card: {
     backgroundColor: '#ffffff',
-    borderRadius: '8px',
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-    padding: '20px',
+    borderRadius: '10px',
+    boxShadow: '0px 5px 15px rgba(0, 0, 0, 0.1)',
+    padding: '40px',
+    textAlign: 'center',
   },
   cardTitle: {
-    fontSize: '18px',
+    fontSize: '22px',
     fontWeight: 'bold',
     color: '#333333',
+    marginBottom: '20px',
   },
-  cardSubtitle: {
-    fontSize: '14px',
-    color: '#666666',
-    marginBottom: '10px',
-  },
-  cardContent: {
-    height: '150px',
-    backgroundColor: '#f1f1f1',
-    borderRadius: '4px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  placeholderText: {
-    color: '#999999',
+  button: {
+    display: 'inline-block',
+    backgroundColor: '#007bff',
+    color: 'white',
+    padding: '15px 30px',
+    fontSize: '18px',
+    fontWeight: 'bold',
+    borderRadius: '50px',
+    textDecoration: 'none',
+    textAlign: 'center',
+    marginTop: '20px',
+    transition: 'background-color 0.3s ease',
   },
 };
 
