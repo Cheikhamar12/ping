@@ -27,7 +27,7 @@ const Connexion = () => {
       const data = await response.json();
       localStorage.setItem('userId', data.userId); // Stocker l'ID de l'utilisateur
       alert('Connexion réussie');
-      navigate('/accueil'); // Rediriger vers la page d'accueil
+      navigate('/predictions'); // Rediriger vers la page d'accueil
     } catch (error) {
       console.error('Erreur :', error);
       alert('Impossible de se connecter. Réessayez plus tard.');
@@ -115,17 +115,21 @@ const Connexion = () => {
           >
             Se connecter
           </button>
+          </form>
           <div
-            style={{
-              marginTop: '10px',
-              display: 'flex',
-              justifyContent: 'space-between',
-              fontSize: '0.9rem',
-            }}
-          >
-            
-          </div>
-        </form>
+          style={{
+            marginTop: '10px',
+            display: 'flex',
+            justifyContent: 'center',
+            fontSize: '0.9rem',
+            color: '#007bff',
+            cursor: 'pointer',
+          }}
+          onClick={() => navigate('/inscription')}
+        >
+          <span>Créer un compte</span>
+        </div>
+      
       </div>
     </div>
   );

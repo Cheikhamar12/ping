@@ -1,35 +1,9 @@
 import React from 'react';
 import logo from '../assets/logo.png';
-
+import Layout from '../components/Layout';
 const AccueilPage = () => {
   return (
-    <div style={styles.container}>
-      {/* Barre de navigation */}
-      <nav style={styles.navbar}>
-        <div style={styles.navContent}>
-          <div style={styles.logoContainer}>
-            <img src={logo} alt="Logo" style={styles.logo} />
-            <span style={styles.brand}>MIKANA</span>
-          </div>
-          <ul style={styles.navLinks}>
-            <li>
-              <a href="/" style={styles.activeLink}>
-                Accueil
-              </a>
-            </li>
-            <li>
-              <a href="/predictions" style={styles.link}>
-                Prédictions
-              </a>
-            </li>
-            <li>
-              <a href="/documentation" style={styles.link}>
-                Documentation
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+    <Layout>
 
       {/* Contenu principal */}
       <div style={styles.mainContent}>
@@ -54,7 +28,7 @@ const AccueilPage = () => {
         
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
