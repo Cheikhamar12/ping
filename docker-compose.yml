@@ -20,6 +20,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
+    env_file:
+      - .env
     environment:
       - DB_HOST=db
       - DB_USER=root

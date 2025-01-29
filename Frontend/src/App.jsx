@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Inscription from './authentification/Inscription';
 import Connexion from './authentification/Connexion';
 import AccueilPage from './prediction/AccueilPage';
+import DBPage from './BDD/db'; 
 
 function App() {
   const [userId, setUserId] = useState(null);
@@ -17,20 +18,18 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Route accessible à tous */}
+        {/* Routes accessibles à tous */}
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
 
-        {/* Route protégée */}
+        {/* Routes protégées */}
         <Route
           path="/accueil"
-          element={
-            userId ? (
-              <AccueilPage />
-            ) : (
-              <Navigate to="/connexion" replace />
-            )
-          }
+          element={userId ? <AccueilPage /> : <Navigate to="/connexion" replace />}
+        />
+        <Route
+          path="/db"
+          element={userId ? <DBPage /> : <Navigate to="/connexion" replace />}
         />
 
         {/* Redirection par défaut */}

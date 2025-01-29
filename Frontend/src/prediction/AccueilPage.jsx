@@ -27,6 +27,11 @@ const AccueilPage = () => {
                 Documentation
               </a>
             </li>
+            <li>
+              <a href="/db" style={styles.link}>
+                Base de données
+              </a>
+            </li>
           </ul>
         </div>
       </nav>
