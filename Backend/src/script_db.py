@@ -19,11 +19,11 @@ if not os.path.exists(CSV_FILE):
     exit()
 
 # Charger le CSV
-df = pd.read_csv(CSV_FILE, delimiter=";", dtype=str)
+df = pd.read_excel(CSV_FILE, dtype=str)
 
 # Correction des formats
-df["poids"] = df["poids"].str.replace(",", ".").astype(float)
-df["poids_total"] = df["poids_total"].str.replace(",", ".").astype(float)
+df["Poids"] = df["Poids"].str.replace(",", ".").astype(float)
+df["Poids total"] = df["Poids total"].str.replace(",", ".").astype(float)
 
 # Connexion à la base de données
 conn = mysql.connector.connect(**DB_CONFIG)

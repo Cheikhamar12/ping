@@ -45,7 +45,7 @@ UNLOCK TABLES;
 
 CREATE TABLE Logistique (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    date_expedition VARCHAR(10) NOT NULL,
+    date_expedition VARCHAR(50) NOT NULL,
     designation_article VARCHAR(255) NOT NULL,
     poids FLOAT DEFAULT NULL,
     qte_cdee INT DEFAULT 0,
