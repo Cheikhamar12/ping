@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Inscription from './authentification/Inscription';
 import Connexion from './authentification/Connexion';
 import AccueilPage from './prediction/AccueilPage';
-import DBPage from './BDD/db'; 
+import DataUpload from './pages/DataUpload';
 
 function App() {
   const [userId, setUserId] = useState(null);
@@ -18,22 +18,38 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Route de base : Redirige vers Inscription */}
+        <Route path="/" element={<Navigate to="/inscription" replace />} />
+
         {/* Routes accessibles à tous */}
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
 
         {/* Routes protégées */}
         <Route
-          path="/accueil"
-          element={userId ? <AccueilPage /> : <Navigate to="/connexion" replace />}
+          path="/predictions"
+          element={
+            userId ? (
+              <AccueilPage />
+            ) : (
+              <Navigate to="/connexion" replace />
+            )
+          }
         />
+        
+        {/* Nouvelle route pour DataUpload */}
         <Route
-          path="/db"
-          element={userId ? <DBPage /> : <Navigate to="/db" replace />}
+          path="/upload"
+          element={
+            userId ? (
+              <DataUpload />
+            ) : (
+              <Navigate to="/connexion" replace />
+            )
+          }
         />
 
-
-        {/* Redirection par défaut */}
+        {/* Redirection par défaut pour les routes inconnues */}
         <Route path="*" element={<Navigate to="/connexion" replace />} />
       </Routes>
     </Router>
