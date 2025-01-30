@@ -11,15 +11,15 @@ DB_CONFIG = {
 }
 
 # Chemin du fichier CSV
-CSV_FILE = "Backend/data/raw/Excel_concatene.xlsx"
+XLSX_FILE = "Backend/data/raw/Excel_concatene.xlsx"
 
 # Vérifier si le fichier existe
-if not os.path.exists(CSV_FILE):
-    print("⚠️ Fichier introuvable :", CSV_FILE)
+if not os.path.exists(XLSX_FILE):
+    print("⚠️ Fichier introuvable :", XLSX_FILE)
     exit()
 
 # Charger le CSV
-df = pd.read_excel(CSV_FILE, dtype=str)
+df = pd.read_excel(XLSX_FILE, dtype=str)
 
 # Correction des formats
 df["Poids"] = df["Poids"].str.replace(",", ".").astype(float)
