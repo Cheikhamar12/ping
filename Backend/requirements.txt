@@ -1,0 +1,14 @@
+Flask==2.2.2 # Framework web
+Flask-CORS==3.0.10 # Gestion des requêtes cross-origin
+mysql-connector-python==8.0.30 # Connexion à la base de données MySQL
+bcrypt==3.2.2 # Gestion des mots de passe
+PyJWT==2.5.0 # Gestion des tokens JWT
+python-dotenv==0.21.0 # Gestion des variables d'environnement
+
+Flask-SQLAlchemy==3.0.2  # ORM pour la gestion de la base de données
+Flask-Migrate==4.0.4     # Gestion des migrations de base de données
+Flask-RESTful==0.3.9     # Création d'API REST
+marshmallow==3.19.0      # Sérialisation/désérialisation des données
+pytest==7.3.1           # Tests unitaires
+gunicorn==20.1.0     
+npm==0.1.1

@@ -26,6 +26,9 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Route de base : Redirige vers Inscription */}
+        <Route path="/" element={<Navigate to="/inscription" replace />} />
+
         {/* Route accessible à tous */}
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
