@@ -29,8 +29,9 @@ function App() {
         />
         <Route
           path="/db"
-          element={userId ? <DBPage /> : <Navigate to="/connexion" replace />}
+          element={userId ? <DBPage /> : <Navigate to="/db" replace />}
         />
+
 
         {/* Redirection par défaut */}
         <Route path="*" element={<Navigate to="/connexion" replace />} />
