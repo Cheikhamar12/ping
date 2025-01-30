@@ -182,4 +182,4 @@ if __name__ == '__main__':
     print(f"- Processed: {PROCESSED_FOLDER}")
     print(f"- Models: {MODELS_FOLDER}")
     print("Démarrage du serveur Flask sur http://localhost:5001")
-    app.run(debug=True, port=5001)
+    app.run(host='0.0.0.0', port=5001)
