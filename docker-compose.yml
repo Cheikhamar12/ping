@@ -20,6 +20,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
+    env_file:
+      - .env
     environment:
       - DB_HOST=db
       - DB_USER=root
@@ -28,9 +30,29 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      flask:
+        condition: service_started
     networks:
       - app-network
 
+  flask:
+    build:
+      context: ./Backend
+      dockerfile: dockerfile.flask
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_ENV=development
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=ping
+    volumes:
+      - ./Backend:/app
+    depends_on:
+      - db
+    networks:
+      - app-network
 
   db:
     image: mysql:8.0
@@ -47,7 +69,6 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$MYSQL_ROOT_PASSWORD"]
       interval: 30s
       retries: 3
-
 
 networks:
   app-network:

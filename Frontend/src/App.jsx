@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Inscription from './authentification/Inscription';
 import Connexion from './authentification/Connexion';
 import AccueilPage from './prediction/AccueilPage';
+import DataUpload from './pages/DataUpload';
 
 function App() {
   const [userId, setUserId] = useState(null);
@@ -20,16 +21,28 @@ function App() {
         {/* Route de base : Redirige vers Inscription */}
         <Route path="/" element={<Navigate to="/inscription" replace />} />
 
-        {/* Route accessible à tous */}
+        {/* Routes accessibles à tous */}
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
 
-        {/* Route protégée */}
+        {/* Routes protégées */}
         <Route
-          path="/accueil"
+          path="/predictions"
           element={
             userId ? (
               <AccueilPage />
+            ) : (
+              <Navigate to="/connexion" replace />
+            )
+          }
+        />
+        
+        {/* Nouvelle route pour DataUpload */}
+        <Route
+          path="/upload"
+          element={
+            userId ? (
+              <DataUpload />
             ) : (
               <Navigate to="/connexion" replace />
             )

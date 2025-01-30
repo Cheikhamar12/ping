@@ -42,6 +42,18 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,'a','a@gmail.com','$2a$10$TNh8slnlhS1Arc/VzQWouu.tCT..nkPXUMYPucPg7yafAFXy3OZXy','1234'),(2,'fff','sss@fff','$2a$10$fi2iUo/pCA9Thp3WOS052.UzHOWD0TtpD7s8pYrC1YeAFxV/Po85i','aaaa');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+CREATE TABLE Logistique (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    date_expedition VARCHAR(50) NOT NULL,
+    designation_article VARCHAR(255) NOT NULL,
+    poids FLOAT DEFAULT NULL,
+    qte_cdee INT DEFAULT 0,
+    qte_livree INT DEFAULT 0,
+    poids_total FLOAT DEFAULT NULL,
+    annee_semaine INT NOT NULL
+);
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
