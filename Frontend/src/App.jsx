@@ -1,10 +1,12 @@
+
+
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import Inscription from './authentification/Inscription';
 import Connexion from './authentification/Connexion';
 import AccueilPage from './prediction/AccueilPage';
-import Rhpredictionpage from './prediction/Rhpredictionpage'; // Import de la nouvelle page
+import Rhpredictionpage from './prediction/Rhpredictionpage';
 import Bienvenue from './authentification/Bienvenu';  //Test Divine
 
 function App() {
@@ -26,9 +28,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Route de base : Redirige vers Inscription */}
-        <Route path="/" element={<Navigate to="/inscription" replace />} />
-
         {/* Route accessible à tous */}
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />

@@ -1,3 +1,5 @@
+
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
@@ -93,6 +95,6 @@ app.post('/api/auth/login', (req, res) => {
 });
  
 // Lancement du serveur
-app.listen(port, '0.0.0.0', () => {
+app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });

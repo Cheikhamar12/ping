@@ -2,59 +2,56 @@ import React, { useState } from "react";
 import logo from "../assets/logo.png";
 
 const Rhpredictionpage = () => {
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]);
 
   const handleFileUpload = (event) => {
-    const uploadedFile = event.target.files[0];
-    if (uploadedFile) {
-      setFile(uploadedFile);
+    const uploadedFiles = Array.from(event.target.files);
+    if (uploadedFiles.length === 3) {
+      setFiles(uploadedFiles);
+    } else {
+      alert("Vous devez importer exactement trois fichiers Excel.");
     }
   };
 
   const handlePredict = () => {
-    if (file) {
+    if (files.length === 3) {
       alert(
-        `Le fichier "${file.name}" a été importé avec succès. Prédictions en cours...`
+        `Les fichiers ont été importés avec succès : \n${files
+          .map((file) => file.name)
+          .join("\n")}\nPrédictions en cours...`
       );
     } else {
-      alert("Veuillez d'abord importer un fichier !");
+      alert("Veuillez importer exactement trois fichiers Excel avant de continuer !");
     }
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.contentContainer}>
-        {/* Logo */}
         <img src={logo} alt="Logo" style={styles.logo} />
-
-        {/* Titre */}
         <h1 style={styles.title}>Prédictions RH</h1>
-
-        {/* Sous-titre */}
         <p style={styles.subtitle}>
-          Importez un fichier Excel pour générer des prédictions pour vos
-          besoins en ressources humaines.
+          Importez trois fichiers Excel pour générer des prédictions pour vos besoins en ressources humaines.
         </p>
-
-        {/* Champ d'importation */}
         <div style={styles.uploadContainer}>
           <label htmlFor="file-upload" style={styles.uploadLabel}>
-            {file ? `Fichier : ${file.name}` : "Cliquez pour importer un fichier"}
+            {files.length === 3
+              ? `Fichiers importés : \n${files.map((file) => file.name).join(", ")}`
+              : "Cliquez pour importer trois fichiers"}
           </label>
           <input
             type="file"
             id="file-upload"
             accept=".xls, .xlsx"
+            multiple
             onChange={handleFileUpload}
             style={{ display: "none" }}
           />
         </div>
-
-        {/* Bouton prédire */}
         <button
           onClick={handlePredict}
-          style={file ? styles.predictButtonActive : styles.predictButtonDisabled}
-          disabled={!file}
+          style={files.length === 3 ? styles.predictButtonActive : styles.predictButtonDisabled}
+          disabled={files.length !== 3}
         >
           Lancer les Prédictions
         </button>
