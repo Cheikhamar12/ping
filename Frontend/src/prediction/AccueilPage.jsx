@@ -55,15 +55,15 @@ ChartJS.register(
 const evaluateMetric = (metric, value) => {
     const evaluations = {
         rmse: [
-            { threshold: 50, status: 'excellent', color: '#2E7D32' },
-            { threshold: 100, status: 'bon', color: '#1976D2' },
-            { threshold: 200, status: 'moyen', color: '#ED6C02' },
+            { threshold: 1000, status: 'excellent', color: '#2E7D32' },
+            { threshold: 3500, status: 'bon', color: '#1976D2' },
+            { threshold: 5000, status: 'moyen', color: '#ED6C02' },
             { threshold: Infinity, status: 'à améliorer', color: '#D32F2F' }
         ],
         mae: [
-            { threshold: 30, status: 'excellent', color: '#2E7D32' },
-            { threshold: 60, status: 'bon', color: '#1976D2' },
-            { threshold: 120, status: 'moyen', color: '#ED6C02' },
+            { threshold: 1000, status: 'excellent', color: '#2E7D32' },
+            { threshold: 3500, status: 'bon', color: '#1976D2' },
+            { threshold: 5000, status: 'moyen', color: '#ED6C02' },
             { threshold: Infinity, status: 'à améliorer', color: '#D32F2F' }
         ],
         mape: [

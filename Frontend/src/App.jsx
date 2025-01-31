@@ -5,6 +5,7 @@ import Inscription from './authentification/Inscription';
 import Connexion from './authentification/Connexion';
 import AccueilPage from './prediction/AccueilPage';
 import DataUpload from './pages/DataUpload';
+import Bienvenue from './authentification/Bienvenu';
 
 function App() {
   const [userId, setUserId] = useState(null);
@@ -18,12 +19,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Route de base : Redirige vers Inscription */}
-        <Route path="/" element={<Navigate to="/inscription" replace />} />
+        {/* Route de base : Redirige vers bienvenue */}
+        <Route path="/" element={<Navigate to="/bienvenu" replace />} />
 
         {/* Routes accessibles à tous */}
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
+        <Route path="/bienvenu" element={<Bienvenue />} />
+
 
         {/* Routes protégées */}
         <Route
