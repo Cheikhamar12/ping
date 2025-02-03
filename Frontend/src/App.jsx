@@ -6,6 +6,7 @@ import Connexion from './authentification/Connexion';
 import AccueilPage from './prediction/AccueilPage';
 import DataUpload from './pages/DataUpload';
 import Bienvenue from './authentification/Bienvenu';
+import UpdateButton from './pages/db';
 
 function App() {
   const [userId, setUserId] = useState(null);
@@ -39,7 +40,12 @@ function App() {
             )
           }
         />
-        
+        <Route
+          path="/update"
+          element={
+            userId ? <UpdateButton /> : <Navigate to="/connexion" replace />
+          }
+        />
         {/* Nouvelle route pour DataUpload */}
         <Route
           path="/upload"

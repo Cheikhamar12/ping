@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../assets/logo.png'; // Assurez-vous d'utiliser l'import correct
+import logo from '../assets/logo.png'; 
 import { useNavigate } from 'react-router-dom';
 
 const Connexion = () => {
