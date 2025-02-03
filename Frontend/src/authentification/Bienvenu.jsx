@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion'; // Importer motion ici
 import logo from '../assets/logo.png';
-
 const Bienvenu = () => {
   const sections = [
     {
@@ -21,7 +20,6 @@ const Bienvenu = () => {
       text: `Vous disposez de ce site web intuitif, permettant de visualiser les prédictions du modèle, avec des graphiques clairs.`,
     },
   ];
-
   return (
     <div style={styles.container}>
       {/* Barre de navigation */}
@@ -36,7 +34,6 @@ const Bienvenu = () => {
           </ul>
         </div>
       </nav>
-
       {/* Contenu principal */}
       <motion.div 
         initial={{ opacity: 0, y: -50 }}
@@ -54,12 +51,10 @@ const Bienvenu = () => {
         <p style={styles.subtitle}>
           Gestion intelligente du linge - CHU de Rouen
         </p>
-
         {/* Section de texte explicatif */}
         <p style={styles.description}>
           "Mikana" est un système avancé d'intelligence artificielle qui permet de prédire les besoins en linge et optimiser les livraisons pour le CHU de Rouen.
         </p>
-
         {/* Sections détaillées */}
         <motion.div
           style={styles.sectionsContainer}
@@ -78,7 +73,6 @@ const Bienvenu = () => {
             </motion.div>
           ))}
         </motion.div>
-
         {/* Boutons */}
         <div style={styles.buttonContainer}>
           <button style={styles.buttonPrimary} onClick={() => (window.location.href = '/connexion')}>
@@ -92,7 +86,6 @@ const Bienvenu = () => {
     </div>
   );
 };
-
 const styles = {
   container: {
     minHeight: '100vh',
@@ -217,5 +210,4 @@ const styles = {
     transition: 'background-color 0.3s ease',
   },
 };
-
 export default Bienvenu;

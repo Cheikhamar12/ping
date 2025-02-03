@@ -5,6 +5,7 @@ import pandas as pd
 from werkzeug.utils import secure_filename
 from src.data_processing import process_file
 from src.prediction import make_predictions, train_model, get_model_metrics, retrain_model
+import subprocess
 
 app = Flask(__name__)
 CORS(app)
@@ -174,6 +175,24 @@ def get_data_info():
         return jsonify({
             'status': 'error',
             'error': str(e)
+        }), 500
+
+@app.route('/api/update-data', methods=['POST'])
+def update_data():
+    """Exécute le script script_db.py pour mettre à jour les données"""
+    try:
+        script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src', 'script_db.py')
+        result = subprocess.run(['python', script_path], capture_output=True, text=True)
+
+        return jsonify({
+            "status": "success",
+            "output": result.stdout,
+            "error": result.stderr if result.stderr else None
+        })
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e)
         }), 500
 
 if __name__ == '__main__':
