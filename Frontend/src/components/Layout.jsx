@@ -56,11 +56,11 @@ const Layout = ({ children }) => {
                 href="#" 
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate('/documentation');
+                  navigate('/update');
                 }} 
                 style={styles.link}
               >
-                Documentation
+                Base de données
               </a>
             </li>
           </ul>
