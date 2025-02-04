@@ -1,39 +1,58 @@
-import React, { useState } from 'react';
-import logo from '../assets/logo.png'; 
+import React, { useState } from 'react'; 
+import logo from '../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 
 const Connexion = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState(''); // Pour stocker l'erreur email
 
   const navigate = useNavigate();
 
+  const validateEmail = (email) => {
+    // Expression régulière pour valider le format email : localpart@domain.extension
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  
+    // Si l'email ne correspond pas à la regex
+    if (!regex.test(email)) {
+      setEmailError('Veuillez entrer une adresse e-mail valide (ex : user@domain.com)');
+      return false; // Erreur : Email invalide
+    }
+    
+    setEmailError(''); // Pas d'erreur si l'email est valide
+    return true; // Email valide
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    // Valider l'email avant de soumettre
+    if (!validateEmail(email)) {
+      return; // Ne pas soumettre si l'email n'est pas valide
+    }
+
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         alert(errorData.message || 'Erreur de connexion');
         return;
       }
-  
+
       const data = await response.json();
       localStorage.setItem('userId', data.userId); // Stocker l'ID de l'utilisateur
       alert('Connexion réussie');
-      navigate('/predictions'); // Rediriger vers la page d'accueil
+      navigate('/accueil'); // Rediriger vers la page d'accueil
     } catch (error) {
       console.error('Erreur :', error);
       alert('Impossible de se connecter. Réessayez plus tard.');
     }
   };
-  
 
   return (
     <div
@@ -80,12 +99,15 @@ const Connexion = () => {
             required
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '5px',
               margin: '10px 0',
               border: '1px solid #ddd',
               borderRadius: '4px',
+              fontSize: '0.9rem',
             }}
           />
+          {emailError && <p style={{ color: 'red', fontSize: '0.9rem' }}>{emailError}</p>}
+          
           <input
             type="password"
             placeholder="Mot de passe"
@@ -94,10 +116,11 @@ const Connexion = () => {
             required
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '5px',
               margin: '10px 0',
               border: '1px solid #ddd',
               borderRadius: '4px',
+              fontSize: '0.9rem',
             }}
           />
           <button
@@ -115,21 +138,7 @@ const Connexion = () => {
           >
             Se connecter
           </button>
-          </form>
-          <div
-          style={{
-            marginTop: '10px',
-            display: 'flex',
-            justifyContent: 'center',
-            fontSize: '0.9rem',
-            color: '#007bff',
-            cursor: 'pointer',
-          }}
-          onClick={() => navigate('/inscription')}
-        >
-          <span>Créer un compte</span>
-        </div>
-      
+        </form>
       </div>
     </div>
   );
