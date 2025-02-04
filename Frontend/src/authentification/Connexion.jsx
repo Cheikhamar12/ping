@@ -47,7 +47,7 @@ const Connexion = () => {
       const data = await response.json();
       localStorage.setItem('userId', data.userId); // Stocker l'ID de l'utilisateur
       alert('Connexion réussie');
-      navigate('/accueil'); // Rediriger vers la page d'accueil
+      navigate('/predictions'); // Rediriger vers la page d'accueil
     } catch (error) {
       console.error('Erreur :', error);
       alert('Impossible de se connecter. Réessayez plus tard.');
