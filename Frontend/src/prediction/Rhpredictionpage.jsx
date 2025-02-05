@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
-
+const API_URL = 'http://localhost:5001/api/upload-data1';  // Nouveau port
 const Rhpredictionpage = () => {
   const [files, setFiles] = useState([]);
 
@@ -14,14 +14,14 @@ const Rhpredictionpage = () => {
   };
 
   const handlePredict = () => {
-    if (files.length === 3) {
+    if (files.length === 1) {
       alert(
         `Les fichiers ont été importés avec succès : \n${files
           .map((file) => file.name)
           .join("\n")}\nPrédictions en cours...`
       );
     } else {
-      alert("Veuillez importer exactement trois fichiers Excel avant de continuer !");
+      alert("Veuillez importer votre fichier Excel avant de continuer !");
     }
   };
 
@@ -50,8 +50,8 @@ const Rhpredictionpage = () => {
         </div>
         <button
           onClick={handlePredict}
-          style={files.length === 3 ? styles.predictButtonActive : styles.predictButtonDisabled}
-          disabled={files.length !== 3}
+          style={files.length === 1 ? styles.predictButtonActive : styles.predictButtonDisabled}
+          disabled={files.length !== 1}
         >
           Lancer les Prédictions
         </button>

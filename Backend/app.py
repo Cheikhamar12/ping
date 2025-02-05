@@ -3,8 +3,9 @@ from flask_cors import CORS
 import os
 import pandas as pd
 from werkzeug.utils import secure_filename
-from src.data_processing import process_file
-from src.prediction import make_predictions, train_model, get_model_metrics, retrain_model
+from src.data_processing import process_file 
+from src.traitementsDonnéesPrédictions import process_file1
+from src.prediction import make_predictions, train_model, get_model_metrics, retrain_model, make_predictions1, train_model1, get_model_metrics1, retrain_model1
 import subprocess
 
 app = Flask(__name__)
@@ -48,36 +49,53 @@ def upload_file():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
         
-        # Traiter le fichier
+        # Traiter le fichier pour le modèle 1
         result = process_file(filepath)
+        # Traiter le fichier pour le modèle 2
+        result1 = process_file1(filepath)
         
         if result.get('status') == 'success':
-            # Réentraîner le modèle avec les nouvelles données
+            # Réentraîner le modèle 1 avec les nouvelles données
             retrain_result = retrain_model()
             if retrain_result.get('status') == 'success':
                 return jsonify({
-                    'message': 'Fichier traité et modèle réentraîné avec succès',
+                    'message': 'Fichier traité et modèle 1 réentraîné avec succès',
                     'filename': filename
                 })
             else:
                 return jsonify({
-                    'warning': 'Fichier traité mais erreur lors du réentraînement du modèle',
+                    'warning': 'Fichier traité mais erreur lors du réentraînement du modèle 1',
                     'filename': filename,
                     'retrain_error': retrain_result.get('error')
+                })
+        elif result1.get('status') == 'success':
+            # Réentraîner le modèle 2 avec les nouvelles données
+            retrain_result1 = retrain_model1()
+            if retrain_result1.get('status') == 'success':
+                return jsonify({
+                    'message': 'Fichier traité et modèle 2 réentraîné avec succès',
+                    'filename': filename
+                })
+            else:
+                return jsonify({
+                    'warning': 'Fichier traité mais erreur lors du réentraînement du modèle 2',
+                    'filename': filename,
+                    'retrain_error': retrain_result1.get('error')
                 })
         else:
             return jsonify({
                 'error': 'Erreur lors du traitement',
-                'details': result.get('errors', [])
+                'details': result.get('errors', []) + result1.get('errors', [])
             }), 400
             
     except Exception as e:
         print(f"Erreur: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
+
 @app.route('/api/predict', methods=['GET'])
 def predict():
-    """Route pour générer les prédictions"""
+    """Route pour générer les prédictions pour le modèle 1"""
     try:
         start_date = request.args.get('start_date')
         end_date = request.args.get('end_date', None)
@@ -91,32 +109,79 @@ def predict():
         print(f"Erreur dans la route predict: {str(e)}")
         return jsonify({'status': 'error', 'error': str(e)}), 500
 
+@app.route('/api/predict1', methods=['GET'])
+def predict1():
+    """Route pour générer les prédictions pour le modèle 2"""
+    try:
+        start_date = request.args.get('start_date')
+        end_date = request.args.get('end_date', None)
+        
+        if not start_date:
+            return jsonify({'status': 'error', 'error': 'Date de début requise'}), 400
+
+        result = make_predictions1(start_date, end_date)
+        return jsonify(result)
+    except Exception as e:
+        print(f"Erreur dans la route predict1: {str(e)}")
+        return jsonify({'status': 'error', 'error': str(e)}), 500
+
+
 @app.route('/api/train', methods=['POST'])
 def train():
-    """Route pour entraîner le modèle initial"""
+    """Route pour entraîner le modèle 1"""
     try:
         result = train_model()
         return jsonify(result)
     except Exception as e:
         return jsonify({'status': 'error', 'error': str(e)}), 500
 
+@app.route('/api/train1', methods=['POST'])
+def train1():
+    """Route pour entraîner le modèle 2"""
+    try:
+        result = train_model1()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'status': 'error', 'error': str(e)}), 500
+
+
 @app.route('/api/retrain', methods=['POST'])
 def retrain():
-    """Route pour forcer le réentraînement du modèle"""
+    """Route pour forcer le réentraînement du modèle 1"""
     try:
         result = retrain_model()
         return jsonify(result)
     except Exception as e:
         return jsonify({'status': 'error', 'error': str(e)}), 500
 
+@app.route('/api/retrain1', methods=['POST'])
+def retrain1():
+    """Route pour forcer le réentraînement du modèle 2"""
+    try:
+        result = retrain_model1()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'status': 'error', 'error': str(e)}), 500
+
+
 @app.route('/api/metrics', methods=['GET'])
 def metrics():
-    """Route pour récupérer les métriques du modèle"""
+    """Route pour récupérer les métriques du modèle 1"""
     try:
         result = get_model_metrics()
         return jsonify(result)
     except Exception as e:
         return jsonify({'status': 'error', 'error': str(e)}), 500
+
+@app.route('/api/metrics1', methods=['GET'])
+def metrics1():
+    """Route pour récupérer les métriques du modèle 2"""
+    try:
+        result = get_model_metrics1()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'status': 'error', 'error': str(e)}), 500
+
 
 @app.route('/api/last-available-date', methods=['GET'])
 def get_last_available_date():

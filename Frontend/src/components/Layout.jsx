@@ -56,6 +56,18 @@ const Layout = ({ children }) => {
                 href="#" 
                 onClick={(e) => {
                   e.preventDefault();
+                  navigate('/Rhpredictionpage');
+                }} 
+                style={styles.link}
+              >
+                Prédiction besoin RH
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
                   navigate('/update');
                 }} 
                 style={styles.link}

@@ -9,6 +9,7 @@ import AccueilPage from './prediction/AccueilPage';
 import DataUpload from './pages/DataUpload';
 import Bienvenue from './authentification/Bienvenu';
 import UpdateButton from './pages/db';
+import Rhpredictionpage from './prediction/Rhpredictionpage';
 
 function App() {
   const [userId, setUserId] = useState(null);
@@ -53,6 +54,16 @@ function App() {
           path="/update"
           element={
             userId ? <UpdateButton /> : <Navigate to="/connexion" replace />
+          }
+        />
+        <Route
+          path="/Rhpredictionpage"
+          element={
+            userId ? (
+              <Rhpredictionpage />
+            ) : (
+              <Navigate to="/connexion" replace />
+            )
           }
         />
         {/* Nouvelle route pour DataUpload */}
