@@ -6,6 +6,7 @@ const Connexion = ({ setUserId }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -23,6 +24,8 @@ const Connexion = ({ setUserId }) => {
     e.preventDefault();
     if (!validateEmail(email)) return;
 
+    setLoading(true); // Active l'état de chargement
+
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
@@ -33,18 +36,22 @@ const Connexion = ({ setUserId }) => {
       if (!response.ok) {
         const errorData = await response.json();
         alert(errorData.message || 'Erreur de connexion');
+        setLoading(false);
         return;
       }
 
       const data = await response.json();
       localStorage.setItem('userId', data.userId); // Stocker l'ID utilisateur
-      setUserId(data.userId); // Mettre à jour l'état global
+      setUserId(data.userId); // Met à jour l'état dans React
 
       alert('Connexion réussie');
-      navigate('/predictions', { replace: true }); // Rediriger sans recharger la page
+      navigate('/predictions', { replace: true }); // ✅ Redirige sans recharger la page
+
     } catch (error) {
       console.error('Erreur :', error);
       alert('Impossible de se connecter. Réessayez plus tard.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -106,17 +113,17 @@ const Connexion = ({ setUserId }) => {
               fontSize: '0.9rem',
             }}
           />
-          <button type="submit" style={{
+          <button type="submit" disabled={loading} style={{
             width: '100%',
             padding: '10px',
-            backgroundColor: '#007bff',
+            backgroundColor: loading ? '#ccc' : '#007bff',
             color: 'white',
             border: 'none',
             borderRadius: '4px',
-            cursor: 'pointer',
+            cursor: loading ? 'not-allowed' : 'pointer',
             marginTop: '10px',
           }}>
-            Se connecter
+            {loading ? "Connexion en cours..." : "Se connecter"}
           </button>
         </form>
       </div>
