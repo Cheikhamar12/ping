@@ -9,7 +9,9 @@ const dotenv = require('dotenv');
 const cors = require('cors');
  
 dotenv.config();
- 
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+console.log('DB_USER:', process.env.DB_USER); // Debugging line
 const app = express();
 // Configuration de CORS
 app.use(cors({

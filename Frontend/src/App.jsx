@@ -6,8 +6,9 @@ import { useState, useEffect } from 'react';
 import Inscription from './authentification/Inscription';
 import Connexion from './authentification/Connexion';
 import AccueilPage from './prediction/AccueilPage';
-import Rhpredictionpage from './prediction/Rhpredictionpage';
-import Bienvenue from './authentification/Bienvenu';  //Test Divine
+import DataUpload from './pages/DataUpload';
+import Bienvenue from './authentification/Bienvenu';
+import UpdateButton from './pages/db';
 
 function App() {
   const [userId, setUserId] = useState(null);
@@ -28,14 +29,18 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Route accessible à tous */}
+        {/* Route de base : Redirige vers bienvenue */}
+        <Route path="/" element={<Navigate to="/bienvenu" replace />} />
+
+        {/* Routes accessibles à tous */}
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
         <Route path="/bienvenu" element={<Bienvenue />} />
 
-        {/* Route protégée */}
+
+        {/* Routes protégées */}
         <Route
-          path="/accueil"
+          path="/predictions"
           element={
             userId ? (
               <AccueilPage />
@@ -44,21 +49,26 @@ function App() {
             )
           }
         />
-                <Route
-          path="/rh-predictions"
+        <Route
+          path="/update"
+          element={
+            userId ? <UpdateButton /> : <Navigate to="/connexion" replace />
+          }
+        />
+        {/* Nouvelle route pour DataUpload */}
+        <Route
+          path="/upload"
           element={
             userId ? (
-              <Rhpredictionpage />
+              <DataUpload />
             ) : (
               <Navigate to="/connexion" replace />
             )
           }
         />
-                
 
-        {/* Redirection par défaut */}
-        <Route path="*" element={<Navigate to="/bienvenu" replace />} />
-        
+        {/* Redirection par défaut pour les routes inconnues */}
+        <Route path="*" element={<Navigate to="/connexion" replace />} />
       </Routes>
     </Router>
   );
