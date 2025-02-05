@@ -264,7 +264,7 @@ const Prediction = () => {
                 <Card sx={{ mb: 4 }}>
                     <CardContent>
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='fr' >
                                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                                     <DatePicker
                                         label="Date de début"
