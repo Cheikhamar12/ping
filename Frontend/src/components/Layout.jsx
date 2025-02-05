@@ -5,6 +5,11 @@ import logo from '../assets/logo.png';
 const Layout = ({ children }) => {
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    localStorage.removeItem('userId'); // Supprime l'ID utilisateur
+    navigate('/connexion'); // Redirige vers la connexion
+  };
+
   return (
     <div style={styles.container}>
       {/* Barre de navigation */}
@@ -15,18 +20,6 @@ const Layout = ({ children }) => {
             <span style={styles.brand}>MIKANA</span>
           </div>
           <ul style={styles.navLinks}>
-            {/* <li>
-              <a 
-                href="#" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate('/accueil');
-                }} 
-                style={styles.link}
-              >
-                Accueil
-              </a>
-            </li> */}
             <li>
               <a 
                 href="#" 
@@ -62,6 +55,12 @@ const Layout = ({ children }) => {
               >
                 Base de données
               </a>
+            </li>
+            {/* Bouton de déconnexion en rouge */}
+            <li>
+              <button onClick={handleLogout} style={styles.logoutButton}>
+                Déconnexion
+              </button>
             </li>
           </ul>
         </div>
@@ -111,6 +110,7 @@ const styles = {
     listStyleType: 'none',
     margin: 0,
     padding: 0,
+    alignItems: 'center',
   },
   link: {
     color: '#666666',
@@ -118,6 +118,21 @@ const styles = {
     margin: '0 10px',
     fontSize: '16px',
     cursor: 'pointer',
+  },
+  logoutButton: {
+    backgroundColor: '#ff4d4d', // Rouge vif
+    color: '#ffffff',
+    border: 'none',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    borderRadius: '4px',
+    marginLeft: '15px',
+    fontWeight: 'bold',
+    transition: 'background-color 0.3s ease',
+  },
+  logoutButtonHover: {
+    backgroundColor: '#cc0000', // Rouge plus foncé au survol
   },
   mainContent: {
     maxWidth: '1200px',
