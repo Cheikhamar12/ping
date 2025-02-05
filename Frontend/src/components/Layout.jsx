@@ -7,8 +7,9 @@ const Layout = ({ children }) => {
 
   const handleLogout = () => {
     localStorage.removeItem('userId'); // Supprime l'ID utilisateur
-    navigate('/connexion'); // Redirige vers la connexion
+    navigate('/connexion', { replace: true }); // Remplace l'entrée actuelle dans l'historique
   };
+  
 
   return (
     <div style={styles.container}>
