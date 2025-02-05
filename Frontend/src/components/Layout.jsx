@@ -7,8 +7,8 @@ const Layout = ({ children }) => {
 
   const handleLogout = () => {
     localStorage.removeItem('userId'); // Supprime l'ID utilisateur
-    navigate('/connexion', { replace: true }); // Remplace l'entrée actuelle dans l'historique
-    window.location.reload(); // Recharge la page pour forcer la mise à jour de l'état
+    navigate('/bienvenu', { replace: true }); // Remplace l'entrée actuelle dans l'historique
+     
   };
   
   
